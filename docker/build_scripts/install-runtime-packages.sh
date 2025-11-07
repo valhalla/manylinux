@@ -57,7 +57,7 @@ if [ "${OS_ID_LIKE}" == "rhel" ]; then
 		RUNTIME_DEPS+=(libxcrypt-compat)
 	fi
 	# MOD: install a few more RUNTIME_DEPS to build `COMPILE_DEPS` and Valhalla
-	RUNTIME_DEPS+=(ninja-build perl-IPC-Cmd zip ccache wget lz4-devel czmq-devel openssl-devel libcurl-devel luajit-devel gdal-devel readosm-devel proj-devel minizip-devel libxml2-devel)
+	RUNTIME_DEPS+=(ninja-build perl-IPC-Cmd zip ccache wget lz4-devel czmq-devel openssl-devel libcurl-devel luajit-devel libtiff-devel libgeotiff-devel readosm-devel proj-devel minizip-devel libxml2-devel)
 elif [ "${OS_ID_LIKE}" == "debian" ]; then
   RUNTIME_DEPS=(zlib1g libbz2-1.0 libexpat1 libncurses6 libreadline8 tk libgdbm6 libdb5.3 libpcap0.8 liblzma5 libkeyutils1 libkrb5-3 libcom-err2 libidn2-0 libcurl4 uuid)
   if [ "${AUDITWHEEL_POLICY}" == "manylinux_2_31" ]; then
