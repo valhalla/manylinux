@@ -165,7 +165,7 @@ RUN manylinux-entrypoint /build_scripts/build-cpython.sh hugo@python.org https:/
 # Have to build prime_server from git source, bcs of submodules..
 FROM build_git AS build_prime_server
 COPY build_scripts/build-prime_server.sh /build_scripts/
-RUN export PRIME_ROOT=prime_server-0.7.0 && \
+RUN export PRIME_ROOT=prime_server-0.7.2 && \
     export PRIME_GIT_URL=https://github.com/kevinkreiser/prime_server && \
     manylinux-entrypoint /build_scripts/build-prime_server.sh
 
