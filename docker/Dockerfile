@@ -225,6 +225,19 @@ RUN export SPATIALITE_ROOT=libspatialite-5.1.0 && \
     export SPATIALITE_DOWNLOAD_URL=https://www.gaia-gis.it/gaia-sins/libspatialite-sources && \
     manylinux-entrypoint /build_scripts/build-spatialite.sh
 
+# spatialite-tools CLI (spatialite shell, spatialite_tool, spatialite_osm_*, ...)
+# AlmaLinux 8 has no spatialite-tools published; readosm/libxml2 come from the base packages
+FROM build_base AS build_spatialite_tools
+COPY --from=build_sqlite3 /manylinux-rootfs /
+COPY --from=build_geos /manylinux-rootfs /
+COPY --from=build_rttopo /manylinux-rootfs /
+COPY --from=build_freexl /manylinux-rootfs /
+COPY --from=build_spatialite /manylinux-rootfs /
+COPY build_scripts/build-spatialite-tools.sh /build_scripts/
+RUN export SPATIALITE_TOOLS_ROOT=spatialite-tools-5.1.0 && \
+    export SPATIALITE_TOOLS_DOWNLOAD_URL=https://www.gaia-gis.it/gaia-sins/spatialite-tools-sources && \
+    manylinux-entrypoint /build_scripts/build-spatialite-tools.sh
+
 FROM runtime_base
 COPY --from=build_tcl_tk /manylinux-rootfs /
 COPY --from=build_mpdecimal /manylinux-rootfs /
@@ -238,6 +251,7 @@ COPY --from=build_geos /manylinux-rootfs /
 COPY --from=build_rttopo /manylinux-rootfs /
 COPY --from=build_freexl /manylinux-rootfs /
 COPY --from=build_spatialite /manylinux-rootfs /
+COPY --from=build_spatialite_tools /manylinux-rootfs /
 COPY build_scripts /opt/_internal/build_scripts/
 RUN --mount=type=bind,target=/build_cpython38,from=build_cpython38 \
     --mount=type=bind,target=/build_cpython39,from=build_cpython39 \
